@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Htmarits - Диагностика и решение проблем ПК</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #38b000;
+            --warning: #ffaa00;
+            --danger: #ef233c;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background-color: #f8f9fe;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 0 4rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Download section */
+        .download-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            margin: -2rem auto 3rem;
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            text-align: center;
+        }
+        
+        .download-section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .download-section p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.5);
+        }
+        
+        .download-btn i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        /* Main content */
+        .main-content {
+            padding: 2rem 0 4rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            color: var(--secondary);
+            display: inline-block;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            border-radius: 2px;
+        }
+        
+        /* Problem cards */
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .problem-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .problem-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .problem-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .problem-card:hover .problem-image img {
+            transform: scale(1.05);
+        }
+        
+        .problem-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+        
+        .problem-header {
+            padding: 1.5rem 1.5rem 1rem;
+        }
+        
+        .problem-header h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .problem-body {
+            padding: 0 1.5rem 1.5rem;
+        }
+        
+        .cause, .solution {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .cause {
+            background-color: rgba(255, 170, 0, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .solution {
+            background-color: rgba(56, 176, 0, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .cause strong, .solution strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .solution-list {
+            padding-left: 20px;
+        }
+        
+        .solution-list li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        
+        .solution-list li::before {
+            content: "•";
+            color: var(--success);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        /* Conclusion */
+        .conclusion-box {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-top: 3rem;
+            border-top: 6px solid var(--danger);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .conclusion-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ef233c" opacity="0.1"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+        }
+        
+        .conclusion-box h2 {
+            color: var(--danger);
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .conclusion-box h2 i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .conclusion-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--secondary), #2a0a7a);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .download-section {
+                padding: 1.5rem;
+            }
+            
+            .problems-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Htmarits</div>
+            <div class="tagline">Комплексная диагностика и решение проблем вашего компьютера</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="download-section">
+            <h2><i class="fas fa-download"></i> Набор утилит для диагностики</h2>
+            <p>Скачайте наш архив с проверенными утилитами для диагностики и устранения проблем с компьютером. Все программы портативные и не требуют установки.</p>
+            <button class="download-btn" id="downloadBtn">
+                <i class="fas fa-file-archive"></i> Скачать набор утилит (45 MB)
+            </button>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Распространённые проблемы и решения</h2>
+            </div>
+            
+            <div class="problems-grid">
+                <!-- Problem 1 -->
+                <div class="problem-card">
+                    <div class="problem-number">1</div>
+                    <div class="problem-image">
+                        <img src="https://images.unsplash.com/photo-1587202372775-e229f1723e1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Перегрев компьютера">
+                    </div>
+                    <div class="problem-header">
+                        <h3>Проверьте перегрев</h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="cause">
+                            <strong>Причина:</strong> Перегрев процессора или видеокарты.
+                        </div>
+                        <div class="solution">
+                            <strong>Решение:</strong>
+                            <ul class="solution-list">
+                                <li>Откройте корпус и почистите от пыли.</li>
+                                <li>Проверьте работу вентиляторов.</li>
+                                <li>Используйте программы для мониторинга температуры (например, HWMonitor, Core Temp, AIDA64).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Problem 2 -->
+                <div class="problem-card">
+                    <div class="problem-number">2</div>
+                    <div class="problem-image">
+                        <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Оперативная память">
+                    </div>
+                    <div class="problem-header">
+                        <h3>Проверьте оперативную память (RAM)</h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="cause">
+                            <strong>Причина:</strong> Ошибки в работе ОЗУ.
+                        </div>
+                        <div class="solution">
+                            <strong>Решение:</strong>
+                            <ul class="solution-list">
+                                <li>Запустите Windows Memory Diagnostic (встроенная утилита в Windows).</li>
+                                <li>Проверьте RAM с помощью MemTest86.</li>
+                                <li>Попробуйте вытащить и вставить планки RAM обратно.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Problem 3 -->
+                <div class="problem-card">
+                    <div class="problem-number">3</div>
+                    <div class="problem-image">
+                        <img src="https://images.unsplash.com/photo-1629196913085-344de5935c4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Жесткий диск">
+                    </div>
+                    <div class="problem-header">
+                        <h3>Проверьте жесткий диск / SSD</h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="cause">
+                            <strong>Причина:</strong> Битые сектора или сбои в работе диска.
+                        </div>
+                        <div class="solution">
+                            <strong>Решение:</strong>
+                            <ul class="solution-list">
+                                <li>Запустите проверку через CHKDSK (в командной строке: chkdsk C: /f /r).</li>
+                                <li>Используйте CrystalDiskInfo для проверки состояния диска.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Problem 4 -->
+                <div class="problem-card">
+                    <div class="problem-number">4</div>
+                    <div class="problem-image">
+                        <img src="https://images.unsplash.com/photo-1581093057305-25f0a6f27a8a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Драйверы">
+                    </div>
+                    <div class="problem-header">
+                        <h3>Обновите драйверы</h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="cause">
+                            <strong>Причина:</strong> Конфликт драйверов (особенно видеокарты).
+                        </div>
+                        <div class="solution">
+                            <strong>Решение:</strong>
+                            <ul class="solution-list">
+                                <li>Обновите драйверы через Диспетчер устройств.</li>
+                                <li>Скачайте последние версии с сайта производителя.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Problem 5 -->
+                <div class="problem-card">
+                    <div class="problem-number">5</div>
+                    <div class="problem-image">
+                        <img src="https://images.unsplash.com/photo-1601158935942-52255782d322?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Блок питания">
+                    </div>
+                    <div class="problem-header">
+                        <h3>Проверьте блок питания (БП)</h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="cause">
+                            <strong>Причина:</strong> Недостаток мощности или неисправность БП.
+                        </div>
+                        <div class="solution">
+                            <strong>Решение:</strong>
+                            <ul class="solution-list">
+                                <li>Попробуйте подключить другой БП (если есть).</li>
+                                <li>Проверьте, хватает ли мощности для вашего железа.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Problem 6 -->
+                <div class="problem-card">
+                    <div class="problem-number">6</div>
+                    <div class="problem-image">
+                        <img src="https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Синий экран">
+                    </div>
+                    <div class="problem-header">
+                        <h3>Анализ синего экрана (BSOD)</h3>
+                    </div>
+                    <div class="problem-body">
+                        <div class="cause">
+                            <strong>Причина:</strong> Критическая ошибка Windows.
+                        </div>
+                        <div class="solution">
+                            <strong>Решение:</strong>
+                            <ul class="solution-list">
+                                <li>Запишите код ошибки (например, CRITICAL_PROCESS_DIED).</li>
+                                <li>Проверьте код в интернете или через BlueScreenView.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="conclusion-box">
+                <h2><i class="fas fa-exclamation-triangle"></i> Важно!</h2>
+                <p>Если проблема не решается после выполнения всех рекомендаций, возможно, имеет место аппаратная поломка (материнская плата, видеокарта, БП). В таком случае лучше обратиться в сервисный центр для профессиональной диагностики и ремонта.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Htmarits</div>
+                <p>Комплексные решения для диагностики и устранения проблем с компьютером</p>
+                
+                <div class="footer-links">
+                    <a href="#">Главная</a>
+                    <a href="#">О проекте</a>
+                    <a href="#">Контакты</a>
+                </div>
+                
+                <div class="social-links">
+                <a href="https://github.com/Htmarits"><i class="fab fa-github"></i></a>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2023 Htmarits. Все права защищены.
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            // Создаем временную ссылку для скачивания
+            const link = document.createElement('a');
+            link.href = 'https://mega.nz/file/fMEASApA#_3pvi5lpqz8Nf8cyl-DF5h-opmF785JFQHlc1FtnRVk'; // Замените на реальный URL
+            link.download = 'Htmarits_Utilities.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Можно добавить уведомление
+            alert('Началось скачивание архива с утилитами. Размер файла: 45 MB');
+        });
+    </script>
+</body>
+</html>
